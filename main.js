@@ -1,8 +1,10 @@
 const { app, Menu, Tray, BrowserWindow } = require('electron');
 
+let tray = null; // ここでtrayを宣言
+
 app.whenReady().then(() => {
   const path = require('path');
-  let tray = new Tray(path.join(__dirname, 'favicon.svg.png'));
+  tray = new Tray(path.join(__dirname, 'favicon.svg.png')); // ここでtrayに値を代入
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Item1', type: 'radio' },
     { label: 'Item2', type: 'radio' },
