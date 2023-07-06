@@ -12,3 +12,9 @@ app.whenReady().then(() => {
   tray.setToolTip('This is my application.');
   tray.setContextMenu(contextMenu);
 });
+
+//アプリが❌ボタンで閉じられても終了しない
+app.on('window-all-closed', (event) => {
+  // デフォルトの挙動を抑制する
+  event.preventDefault();
+});
