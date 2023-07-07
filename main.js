@@ -4,7 +4,7 @@ let tray = null; // ここでtrayを宣言
 
 app.whenReady().then(() => {
   const path = require('path');
-  tray = new Tray(path.join(__dirname, 'favicon.svg.png')); // ここでtrayに値を代入
+  tray = new Tray(path.join(__dirname, 'appのコピー.png')); // ここでtrayに値を代入
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Item1', type: 'radio' },
     { label: 'Item2', type: 'radio' },
