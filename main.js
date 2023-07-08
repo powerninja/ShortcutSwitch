@@ -1,6 +1,8 @@
 const { app, Menu, Tray, BrowserWindow } = require('electron');
 const { PythonShell } = require('python-shell');
 const path = require('path');
+const fs = require('fs');
+const { Buffer } = require('node:buffer');
 
 let tray = null; // ここでtrayを宣言
 
@@ -14,22 +16,22 @@ app.whenReady().then(() => {
   ]);
   tray.setToolTip('This is my application.');
   tray.setContextMenu(contextMenu);
-});
 
-app.on('window-all-closed', (event) => {
-  // デフォルトの挙動を抑制する
-  event.preventDefault();
-});
-
-function parseLnk(lnkFilePath) {
-  // Run the Python script and get the result via a Promise
-  return new Promise((resolve, reject) => {
-    PythonShell.run('parse_lnk.py', { args: [lnkFilePath] }, (err, results) => {
-      if (err) reject(err);
-      else resolve(results[0]); // Results is an array, we only need the first value
-    });
+  // Read the .lnk file as binary
+  fs.readFile('/Users/konishitakuto/Downloads/AD.lnk', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    const hexData = data.toString('hex');
+    // console.log(data.toString('hex'));
+    const buf = Buffer.from(hexData, 'hex');
+    const str = buf.toString('utf8');
+    console.log(str); // Outputs: "hello world"
   });
-}
 
-// Just for testing purposes
-parseLnk('/path/to/your/lnkfile.lnk').then(console.log).catch(console.error);
+  app.on('window-all-closed', (event) => {
+    // デフォルトの挙動を抑制する
+    event.preventDefault();
+  });
+});
