@@ -3,6 +3,7 @@ const { PythonShell } = require('python-shell');
 const path = require('path');
 const fs = require('fs');
 const { Buffer } = require('node:buffer');
+const iconv = require('iconv-lite');
 
 let tray = null; // ここでtrayを宣言
 
@@ -23,11 +24,14 @@ app.whenReady().then(() => {
       console.error(err);
       return;
     }
-    const hexData = data.toString('hex');
-    // console.log(data.toString('hex'));
-    const buf = Buffer.from(hexData, 'hex');
-    const str = buf.toString('utf8');
-    console.log(str); // Outputs: "hello world"
+    // Convert the binary data to a string
+    const binaryString = Buffer.from(data, 'binary').toString('binary');
+    // Convert the string to Shift_JIS
+    const sjisString = iconv.decode(Buffer.from(binaryString, 'binary'), 'Shift_JIS');
+    // Convert the Shift_JIS string to UTF-8
+    const utf8String = iconv.encode(sjisString, 'UTF-8').toString();
+
+    console.log(utf8String);
   });
 
   app.on('window-all-closed', (event) => {
