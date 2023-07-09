@@ -19,7 +19,7 @@ app.whenReady().then(() => {
   tray.setContextMenu(contextMenu);
 
   // Read the .lnk file as binary
-  fs.readFile('/Users/konishitakuto/Downloads/AD.lnk', (err, data) => {
+  fs.readFile('/Users/konishitakuto/Downloads/AD2', (err, data) => {
     if (err) {
       console.error(err);
       return;
@@ -30,8 +30,20 @@ app.whenReady().then(() => {
     const sjisString = iconv.decode(Buffer.from(binaryString, 'binary'), 'Shift_JIS');
     // Convert the Shift_JIS string to UTF-8
     const utf8String = iconv.encode(sjisString, 'UTF-8').toString();
+    // Create a regular expression to match the UNC path
 
-    console.log(utf8String);
+    const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
+
+    // Search for the UNC path
+    const match = utf8String.match(regex);
+
+    if (match) {
+      console.log(match[0]); // prints the matched string
+    } else {
+      console.log('No match found');
+    }
+
+    // console.log(utf8String);
   });
 
   app.on('window-all-closed', (event) => {
