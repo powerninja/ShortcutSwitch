@@ -36,14 +36,25 @@ app.whenReady().then(() => {
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
     //これもうまくいった
     const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\\|$)/;
+
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:\\[^\\]+)+(?=\\\\)/;
     // const regex = /(192\.168\.254\.6\\Company\\00_AA.*?\\\\)/gs;
+    // const regex = /(192\.168\.254\.6\\Company.*?)\\\\/gs;
 
     // Search for the UNC path
     const match = utf8String.match(regex);
 
     if (match) {
       console.log(match[0]); // prints the matched string
+      const cutOffPoint = match[0].indexOf('\\\\');
+
+      let resultString;
+      if (cutOffPoint !== -1) {
+        resultString = match[0].substring(0, cutOffPoint + 2); // include the double backslashes
+      } else {
+        resultString = match[0];
+      }
+      console.log(resultString, 'resultString');
     } else {
       console.log('No match found');
     }
