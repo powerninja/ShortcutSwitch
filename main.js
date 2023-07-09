@@ -32,7 +32,12 @@ app.whenReady().then(() => {
     const utf8String = iconv.encode(sjisString, 'UTF-8').toString();
     // Create a regular expression to match the UNC path
 
-    const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
+    // うまくいった
+    // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
+    //これもうまくいった
+    const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\\|$)/;
+    // const regex = /192\.168\.254\.6\\Company\\00_AA(?:\\[^\\]+)+(?=\\\\)/;
+    // const regex = /(192\.168\.254\.6\\Company\\00_AA.*?\\\\)/gs;
 
     // Search for the UNC path
     const match = utf8String.match(regex);
