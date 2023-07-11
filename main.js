@@ -36,7 +36,7 @@ app.whenReady().then(() => {
     // うまくいった
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
     //これもうまくいった
-    const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\\|$)/;
+    const regex = /192\.168\.254\.6\\Company\\00_部門別.*?(?=\\\\|$)/;
 
     // Search for the UNC path
     const match = sjisString.match(regex);
@@ -46,15 +46,23 @@ app.whenReady().then(() => {
     if (matchResult) {
       // console.log(match[0]); // prints the matched string
       const cutPosition = matchResult.indexOf('x');
-      const regex = /\\/g; // This regex is for searching backslashes
 
-      const match2 = matchResult.match(regex);
-      console.log(cutPosition.length, 'cutPosition.length');
+      console.log(matchResult.length, 'cutPosition.length');
 
-      let resultString;
       if (cutPosition !== -1) {
-        const newString = match[0].substring(0, cutPosition + 2); // +2 to include the two backslashes
+        const newString = matchResult.substring(0, cutPosition + 41); // +2 to include the two backslashes
         console.log(newString, 'newString');
+        let rrr = '';
+        for (let i = 0; i < matchResult.length; i++) {
+          if (matchResult.charAt(i)) {
+            rrr += matchResult.charAt(i);
+          } else {
+            break;
+          }
+          console.log(i, matchResult.charAt(i));
+        }
+        console.log(rrr, 'rrr');
+        console.log(matchResult.charAt(155));
       } else {
         console.log('No double backslashes found');
       }
