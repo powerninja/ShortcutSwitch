@@ -54,7 +54,7 @@ app.whenReady().then(() => {
         console.log(newString, 'newString');
         let rrr = '';
         for (let i = 0; i < matchResult.length; i++) {
-          if (matchResult.charAt(i)) {
+          if (isStringEmpty(matchResult.charAt(i))) {
             rrr += matchResult.charAt(i);
           } else {
             break;
