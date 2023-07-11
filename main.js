@@ -36,7 +36,7 @@ app.whenReady().then(() => {
     // うまくいった
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
     //これもうまくいった
-    const regex = /192\.168\.254\.6\\Company\\00_部門別.*?(?=\\\\|$)/;
+    const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\\|$)/;
 
     // Search for the UNC path
     const match = sjisString.match(regex);
