@@ -31,30 +31,33 @@ app.whenReady().then(() => {
     // Convert the Shift_JIS string to UTF-8
     const utf8String = iconv.encode(sjisString, 'UTF-8').toString();
     // Create a regular expression to match the UNC path
+    // console.log('sjisString', sjisString);
 
     // うまくいった
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
     //これもうまくいった
     const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\\|$)/;
 
-    // const regex = /192\.168\.254\.6\\Company\\00_AA(?:\\[^\\]+)+(?=\\\\)/;
-    // const regex = /(192\.168\.254\.6\\Company\\00_AA.*?\\\\)/gs;
-    // const regex = /(192\.168\.254\.6\\Company.*?)\\\\/gs;
-
     // Search for the UNC path
-    const match = utf8String.match(regex);
+    const match = sjisString.match(regex);
+    const matchResult = match[0];
+    console.log(matchResult, 'matchResult');
 
-    if (match) {
-      console.log(match[0]); // prints the matched string
-      const cutOffPoint = match[0].indexOf('\\\\');
+    if (matchResult) {
+      // console.log(match[0]); // prints the matched string
+      const cutPosition = matchResult.indexOf('x');
+      const regex = /\\/g; // This regex is for searching backslashes
+
+      const match2 = matchResult.match(regex);
+      console.log(cutPosition.length, 'cutPosition.length');
 
       let resultString;
-      if (cutOffPoint !== -1) {
-        resultString = match[0].substring(0, cutOffPoint + 2); // include the double backslashes
+      if (cutPosition !== -1) {
+        const newString = match[0].substring(0, cutPosition + 2); // +2 to include the two backslashes
+        console.log(newString, 'newString');
       } else {
-        resultString = match[0];
+        console.log('No double backslashes found');
       }
-      console.log(resultString, 'resultString');
     } else {
       console.log('No match found');
     }
