@@ -19,7 +19,7 @@ app.whenReady().then(() => {
   tray.setContextMenu(contextMenu);
 
   // Read the .lnk file as binary
-  fs.readFile('/Users/konishitakuto/Downloads/AD2', (err, data) => {
+  fs.readFile('/Users/konishitakuto/Downloads/AD.lnk', (err, data) => {
     if (err) {
       console.error(err);
       return;
@@ -33,12 +33,18 @@ app.whenReady().then(() => {
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
 
     //バックスラッシュの後ろがnull文字とされているので、null文字が出てくるまでの文字列を取得する
+    //AD2の場合
     const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\0|$)/;
+
+    //AD.linの場合
+    // const regex = /\\192\.168\.254\.6\\Company\\00_AA.*?(?=\\\0|$)/;
 
     // 192.168.254.6~バックスラッシュnull文字まで抽出する
     const match = sjisString.match(regex);
-    const matchResult = match[0];
-    console.log(matchResult, 'matchResult');
+    if (match) {
+      const matchResult = match[0];
+      console.log(matchResult, 'matchResult');
+    }
 
     // if (matchResult) {
     //   const cutPosition = matchResult.indexOf('x');
