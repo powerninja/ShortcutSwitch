@@ -28,49 +28,38 @@ app.whenReady().then(() => {
     const binaryString = Buffer.from(data, 'binary').toString('binary');
     // Convert the string to Shift_JIS
     const sjisString = iconv.decode(Buffer.from(binaryString, 'binary'), 'Shift_JIS');
-    // Convert the Shift_JIS string to UTF-8
-    const utf8String = iconv.encode(sjisString, 'UTF-8').toString();
-    // Create a regular expression to match the UNC path
-    // console.log('sjisString', sjisString);
 
     // うまくいった
     // const regex = /192\.168\.254\.6\\Company\\00_AA(?:[^\\]*\\)*/;
-    //これもうまくいった
-    const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\\|$)/;
 
-    // Search for the UNC path
+    //バックスラッシュの後ろがnull文字とされているので、null文字が出てくるまでの文字列を取得する
+    const regex = /192\.168\.254\.6\\Company\\00_AA.*?(?=\\\0|$)/;
+
+    // 192.168.254.6~バックスラッシュnull文字まで抽出する
     const match = sjisString.match(regex);
     const matchResult = match[0];
     console.log(matchResult, 'matchResult');
 
-    if (matchResult) {
-      // console.log(match[0]); // prints the matched string
-      const cutPosition = matchResult.indexOf('x');
+    // if (matchResult) {
+    //   const cutPosition = matchResult.indexOf('x');
 
-      console.log(matchResult.length, 'cutPosition.length');
-
-      if (cutPosition !== -1) {
-        const newString = matchResult.substring(0, cutPosition + 41); // +2 to include the two backslashes
-        console.log(newString, 'newString');
-        let rrr = '';
-        for (let i = 0; i < matchResult.length; i++) {
-          if (isStringEmpty(matchResult.charAt(i))) {
-            rrr += matchResult.charAt(i);
-          } else {
-            break;
-          }
-          console.log(i, matchResult.charAt(i));
-        }
-        console.log(rrr, 'rrr');
-        console.log(matchResult.charAt(155));
-      } else {
-        console.log('No double backslashes found');
-      }
-    } else {
-      console.log('No match found');
-    }
-
-    // console.log(utf8String);
+    //   if (cutPosition !== -1) {
+    //     const newString = matchResult.substring(0, cutPosition + 41); // +2 to include the two backslashes
+    //     console.log(newString, 'newString');
+    //     let rrr = '';
+    //     for (let i = 0; i < matchResult.length; i++) {
+    //       if (matchResult.charAt(i) === '\0') {
+    //         break;
+    //       } else {
+    //         rrr += matchResult.charAt(i);
+    //       }
+    //     }
+    //   } else {
+    //     console.log('No double backslashes found');
+    //   }
+    // } else {
+    //   console.log('No match found');
+    // }
   });
 
   app.on('window-all-closed', (event) => {
