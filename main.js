@@ -1,5 +1,4 @@
-const { app, Menu, Tray, BrowserWindow } = require('electron');
-const { PythonShell } = require('python-shell');
+const { app, Menu, Tray } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { Buffer } = require('node:buffer');
