@@ -40,6 +40,8 @@ app.whenReady().then(() => {
     if (match) {
       const matchResult = match[0];
       console.log(matchResult, 'matchResult');
+      //TODO: macのパスに変換する
+      //TODO: open パス名でターミナルで叩く
     } else {
       console.log('No match found');
     }
