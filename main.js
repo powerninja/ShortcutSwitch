@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { Buffer } = require('node:buffer');
 const iconv = require('iconv-lite');
+const { exec } = require('child_process');
 
 let tray = null; // ここでtrayを宣言
 
@@ -40,8 +41,16 @@ app.whenReady().then(() => {
     if (match) {
       const matchResult = match[0];
       console.log(matchResult, 'matchResult');
-      //TODO: macのパスに変換する
-      //TODO: open パス名でターミナルで叩く
+
+      //open パス名でターミナルで叩く
+      exec(`open ${matchResult}`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`実行エラー: ${error}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+      });
     } else {
       console.log('No match found');
     }
